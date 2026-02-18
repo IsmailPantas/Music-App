@@ -7,7 +7,7 @@ const playerSlice = createSlice({
     isPlaying: false,
     duration: 0,
     seekTime: 0,
-    offlineSongs: {}, 
+    offlineSongs: {}, // Format: { [id]: { ...songData, offlinePath: '...' } }
   },
   reducers: {
     setSong: (state, action) => {
@@ -26,22 +26,25 @@ const playerSlice = createSlice({
       state.seekTime = action.payload;
     },
     saveOfflinePath: (state, action) => {
-      const { id, path } = action.payload;
-      // undefinied hata çözümü
-      if (!state.offlineSongs) {
-        state.offlineSongs = {};
+      const { song, path } = action.payload;
+      if (!state.offlineSongs) state.offlineSongs = {};
+      
+      // Şarkının tüm bilgisini (kapak, isim, artist) offlinePath ile mühürle
+      state.offlineSongs[song.id] = {
+        ...song,
+        offlinePath: path 
+      };
+    },
+    removeOfflinePath: (state, action) => {
+      const id = action.payload;
+      if (state.offlineSongs && state.offlineSongs[id]) {
+        delete state.offlineSongs[id];
       }
-      state.offlineSongs[id] = path;
     },
   },
 });
 
 export const { 
-  setSong, 
-  togglePlay, 
-  setDuration, 
-  setSeekTime, 
-  saveOfflinePath 
+  setSong, togglePlay, setDuration, setSeekTime, saveOfflinePath, removeOfflinePath 
 } = playerSlice.actions;
-
 export default playerSlice.reducer;

@@ -2,9 +2,7 @@ import RNFS from 'react-native-fs';
 
 const offlineService = {
     downloadSong: async (song) => {
-        // Güvenli veri kontrolü
         if (!song?.id || !song?.preview) return null;
-
         const fileName = `${song.id}.mp3`;
         const localPath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
 
@@ -16,12 +14,27 @@ const offlineService = {
                 fromUrl: song.preview,
                 toFile: localPath,
             });
-
             await download.promise;
             return `file://${localPath}`;
         } catch (error) {
             console.error("İndirme hatası:", error);
             return null;
+        }
+    },
+
+    deleteSong: async (songId) => {
+        const fileName = `${songId}.mp3`;
+        const localPath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
+        try {
+            const exists = await RNFS.exists(localPath);
+            if (exists) {
+                await RNFS.unlink(localPath);
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.error("Silme hatası:", error);
+            return false;
         }
     }
 };
