@@ -7,6 +7,10 @@ import { setSong, saveOfflinePath, removeOfflinePath } from '../../store/slices/
 import offlineService from "../../services/offlineService";
 import styles from "./MusicCard.style";
 
+
+
+// Ana müzik kartı yapısı
+
 function MusicCard({ song }) {
     const dispatch = useDispatch();
     const [isProcessing, setIsProcessing] = useState(false);
@@ -34,7 +38,6 @@ function MusicCard({ song }) {
             } else {
                 const localPath = await offlineService.downloadSong(song);
                 if (localPath) {
-                    // Şarkı objesini ve yolu birlikte gönderiyoruz
                     dispatch(saveOfflinePath({ song: song, path: localPath }));
                 }
             }

@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useIsFocused } from '@react-navigation/native'; 
 import Input from "../../components/Input";
 import MusicCard from "../../components/MusicCard";
-import styles from "./SearchScreen.style"; // ✅ Stilleri buradan alıyoruz
+import styles from "./SearchScreen.style";
 
 function SearchScreen() {
     const isFocused = useIsFocused();
@@ -55,7 +55,6 @@ function SearchScreen() {
     };
 
     const renderHistoryItem = ({ item }: { item: any }) => {
-        // ✅ ŞARKI KARTI: Stiller dışarı taşındı
         if (typeof item === 'object' && item !== null) {
             return (
                 <View style={styles.historyCardContainer}>
@@ -73,7 +72,6 @@ function SearchScreen() {
             );
         }
 
-        // ✅ METİN ARAMA: Stiller dışarı taşındı
         return (
             <View style={styles.historyItemContainer}>
                 <TouchableOpacity 

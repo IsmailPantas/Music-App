@@ -7,28 +7,31 @@ import styles from "./SongSlider.style";
 
 function SongSlider() {
     const dispatch = useDispatch(); 
-    const { currentSong, isPlaying, duration } = useSelector((state) => state.player);
-    const [currentTime, setCurrentTime] = useState(0);
+    const { currentSong, isPlaying, duration, seekTime } = useSelector((state) => state.player);
+    
+    const [currentTime, setCurrentTime] = useState(seekTime || 0);
+    const [isSliding, setIsSliding] = useState(false);
 
-    // Zamanlayıcıyı yöneten effect
+    useEffect(() => {
+        if (!isSliding) {
+            setCurrentTime(seekTime);
+        }
+    }, [seekTime]);
+
     useEffect(() => {
         let interval;
-        const maxDuration = duration > 0 ? duration : 30;
-
-        if (isPlaying && currentSong) {
+        if (isPlaying && currentSong && !isSliding) {
             interval = setInterval(() => {
-                setCurrentTime((prevTime) => (prevTime < maxDuration ? prevTime + 1 : 0));
+                setCurrentTime((prev) => {
+                    if (prev < (duration || 30)) {
+                        return prev + 1;
+                    }
+                    return prev;
+                });
             }, 1000);
-        } else {
-            clearInterval(interval);
         }
         return () => clearInterval(interval);
-    }, [isPlaying, currentSong, duration]);
-
-    // Şarkı değiştiğinde saniyeyi sıfırla
-    useEffect(() => {
-        setCurrentTime(0);
-    }, [currentSong]);
+    }, [isPlaying, currentSong, duration, isSliding]);
 
     const formatTime = (seconds) => {
         if (!seconds) return "0:00";
@@ -49,8 +52,14 @@ function SongSlider() {
                 minimumTrackTintColor="#1DB954"
                 maximumTrackTintColor="rgba(255, 255, 255, 0.2)"
                 thumbTintColor="#FFFFFF"
-                onValueChange={(value) => setCurrentTime(value)}
-                onSlidingComplete={(value) => dispatch(setSeekTime(value))}
+                onValueChange={(value) => {
+                    setIsSliding(true);
+                    setCurrentTime(value);
+                }}
+                onSlidingComplete={(value) => {
+                    setIsSliding(false);
+                    dispatch(setSeekTime(value));
+                }}
             />
             <View style={styles.time_container}>
                 <Text style={styles.time_text}>{formatTime(currentTime)}</Text>

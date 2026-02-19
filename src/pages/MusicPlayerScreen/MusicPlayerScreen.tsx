@@ -10,6 +10,7 @@ import CurrentSongTitle from "../../components/CurrentSongTitle"
 import SongSlider from "../../components/SongSilder";
 import MusicControllers from "../../components/MusicControllers"
 
+// Müzik oynatıcısı
 
 function MusicPlayerScreen() {
     const MAIN_BLACK = '#0A0F1A';

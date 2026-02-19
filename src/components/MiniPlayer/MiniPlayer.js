@@ -3,74 +3,83 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import Video from "react-native-video";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { togglePlay, setDuration } from '../../store/slices/playerSlice';
+import { togglePlay, setDuration, playNextSong } from '../../store/slices/playerSlice';
 import styles from './MiniPlayer.style';
 import { useNavigation } from '@react-navigation/native';
 
+
+// Alt kısımdaki Mini Oynatıcı
+
 function MiniPlayer() {
-    const navigation = useNavigation();
     const dispatch = useDispatch();
     const videoRef = useRef(null);
+    const navigation = useNavigation();
 
-    const {
-        currentSong,
-        isPlaying,
-        seekTime,
-        offlineSongs = {}
+    const { 
+        currentSong, 
+        isPlaying, 
+        seekTime, 
+        isRepeat, 
+        offlineSongs = {} 
     } = useSelector((state) => state.player || {});
 
     useEffect(() => {
         if (videoRef.current && seekTime !== undefined && currentSong) {
-            videoRef.current.seek(seekTime);
+            videoRef.current.seek(seekTime); //
         }
-    }, [seekTime]);
+    }, [seekTime, currentSong?.id]); //
 
-    if (!currentSong) return null;
+    if (!currentSong) return null; //
 
-    const getSource = () => {
+    const source = (() => {
         const offlineData = offlineSongs[currentSong.id];
         const path = typeof offlineData === 'object' ? offlineData.offlinePath : offlineData;
-        if (path && typeof path === 'string') {
-            return { uri: path };
-        }
-        return currentSong.preview ? { uri: currentSong.preview } : null;
-    };
-
-    const videoSource = getSource();
-
-    const displayCover = currentSong.cover || currentSong.album?.cover_medium;
-    const displayTitle = currentSong.title || "Bilinmeyen Şarkı";
-    const displayArtist = currentSong.artist?.name || currentSong.artist || "Bilinmeyen Sanatçı";
+        const uri = (path && typeof path === 'string') ? path : currentSong.preview;
+        return uri ? { uri } : null;
+    })();
 
     return (
         <View style={styles.container}>
-            {videoSource && videoSource.uri && (
+            {source && (
                 <Video
                     ref={videoRef}
-                    source={videoSource}
+                    source={source}
                     paused={!isPlaying}
-                    repeat={true}
+                    repeat={isRepeat} //
                     style={{ width: 0, height: 0, position: 'absolute' }}
                     playInBackground={true}
-                    audioOnly={true}
                     onLoad={(data) => dispatch(setDuration(data.duration))}
-                    onError={(error) => console.log("Video Hatası:", error)}
+                    onEnd={() => {
+                        if (!isRepeat) {
+                            dispatch(playNextSong()); //
+                        }
+                    }}
+                    onError={(e) => console.log("Video Hatası:", e)}
                 />
             )}
 
-            <TouchableOpacity
-                style={styles.content}
-                onPress={() => navigation.navigate("Music Player")} 
+            <TouchableOpacity 
+                style={styles.content} 
+                onPress={() => navigation?.navigate("Music Player")}
             >
-                <Image source={{ uri: displayCover }} style={styles.cover} />
+                <Image 
+                    source={{ uri: currentSong.cover || currentSong.album?.cover_medium }} 
+                    style={styles.cover} 
+                />
                 <View style={styles.info}>
-                    <Text style={styles.title} numberOfLines={1}>{displayTitle}</Text>
-                    <Text style={styles.artist}>{displayArtist}</Text>
+                    <Text style={styles.title} numberOfLines={1}>
+                        {currentSong.title || "Yükleniyor..."}
+                    </Text>
+                    <Text style={styles.artist}>
+                        {currentSong.artist?.name || currentSong.artist || "Bilinmeyen"}
+                    </Text>
                 </View>
-                
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => dispatch(togglePlay())} style={styles.playButton}>
+            <TouchableOpacity 
+                onPress={() => dispatch(togglePlay())} 
+                style={styles.playButton}
+            >
                 <Icon name={isPlaying ? "pause" : "play"} size={35} color="white" />
             </TouchableOpacity>
         </View>

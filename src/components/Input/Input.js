@@ -3,6 +3,9 @@ import { View, TextInput } from "react-native";
 import styles from "./Input.style";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+
+// Tüm sayfalar için ortak arama barı
+
 function Input({ placeholder, onChangeText, color = "#64748B", size = 20, ...rest }) {
     return (
         <View style={styles.container}>
@@ -12,8 +15,8 @@ function Input({ placeholder, onChangeText, color = "#64748B", size = 20, ...res
                 placeholder={placeholder} 
                 placeholderTextColor={"#64748B"} 
                 onChangeText={onChangeText}
-                returnKeyType="search" // ✅ Klavyede "Ara/Bitti" butonu çıkartır
-                {...rest} // ✅ Diğer tüm özelliklerin (onSubmitEditing dahil) çalışmasını sağlar
+                returnKeyType="search"
+                {...rest}
             />
         </View>
     );

@@ -4,18 +4,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import Input from "../../components/Input";
 
-// Redux ve Bileşenler
 import MusicCard from "../../components/MusicCard/MusicCard";
 import styles from "./FavoritesScreen.style";
 
+// Favoriler Ekranı
+
 function FavoritesScreen() {
-    // Orjinal favori listesi
     const favoriteList = useSelector((state: any) => state.favorites?.favoriteList || []);
     
-    // filtre için state
+    // Favorilerde var mı yok mu filtresi
     const [filteredList, setFilteredList] = useState<any[]>(favoriteList);
 
-    // anlık favorileri güncelleme
     useEffect(() => {
         setFilteredList(favoriteList);
     }, [favoriteList]);

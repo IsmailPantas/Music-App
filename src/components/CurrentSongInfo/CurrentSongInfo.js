@@ -4,6 +4,8 @@ import styles from "./CurrentSongInfo.style"
 import { useSelector } from "react-redux";
 
 
+// Şuan çalan şarkının üst kısmındaki bilgileri
+
 function CurrentSongInfo() {
     const { currentSong } = useSelector((state) => state.player);
 

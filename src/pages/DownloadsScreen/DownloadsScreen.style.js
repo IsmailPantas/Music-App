@@ -2,8 +2,8 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
     container: {
-        flex: 1, // ✅ Ekranın tamamını kaplaması için şart
-        backgroundColor: '#0A0F1A', // Spotify koyu teması
+        flex: 1,
+        backgroundColor: '#0A0F1A',
     },
     header_container: {
         flexDirection: 'row',

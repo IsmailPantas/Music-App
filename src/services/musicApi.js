@@ -6,6 +6,7 @@ export const searchMusic = async (query) => {
     // Girdiye göre gelen sorgu
     const response = await axios.get(`https://api.deezer.com/search?q=${query}`);
 
+    // alacağımız verileri bir formata sokuyoruz
     const formattedData = response.data.data.map((song) => ({
       id: song.id.toString(),
       title: song.title,

@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 
-
+// Şuanki şarkının isim bilgileri
 function CurrentSongTitle() {
     const dispatch = useDispatch();
 
@@ -19,21 +19,21 @@ function CurrentSongTitle() {
     return (
         <View style={styles.container}>
             <View style={styles.text_container}>
-                <Text style= {styles.title}>{currentSong ? currentSong.title : "Şarkı Seçilmedi"}</Text>
+                <Text style={styles.title}>{currentSong ? currentSong.title : "Şarkı Seçilmedi"}</Text>
                 <Text style={styles.artist}>{currentSong ? currentSong.artist : "Şarkı Seçilmedi"}</Text>
             </View>
             <View>
                 <View style={styles.icon_container}>
-                    <TouchableOpacity 
-                    onPress={() => dispatch(toggleFavorite(currentSong))}
-                    activeOpacity={0.7}
-                >
-                    <Icon 
-                        name={isFavorite ? "heart" : "heart-outline"} 
-                        size={32} 
-                        color={isFavorite ? "#FF5252" : "white"}
-                    />
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => dispatch(toggleFavorite(currentSong))}
+                        activeOpacity={0.7}
+                    >
+                        <Icon
+                            name={isFavorite ? "heart" : "heart-outline"}
+                            size={32}
+                            color={isFavorite ? "#FF5252" : "white"}
+                        />
+                    </TouchableOpacity>
                 </View>
             </View>
         </View>

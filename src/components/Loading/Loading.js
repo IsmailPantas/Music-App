@@ -2,6 +2,11 @@ import React from "react";
 import {View, StyleSheet, Text} from "react-native";
 import LottieView from "lottie-react-native";
 
+
+
+
+// Loading animasyonu
+
 function Loading() {
     return(
         <View style={styles.container}>

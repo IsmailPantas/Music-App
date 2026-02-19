@@ -24,25 +24,24 @@ import DownloadsScreen from "../pages/DownloadsScreen/DownloadsScreen";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-// ✅ Alt Menü Yapısı
+// Alt Menü
 function TabNavigator() {
   return (
     <Tab.Navigator screenOptions={tabOptions}>
       <Tab.Screen name="Main" component={MainScreen} options={{ tabBarLabel: "Ana Sayfa", tabBarIcon: ({ color, size }) => (<Icon name="home-variant" color={color} size={size} />)}} />
-      <Tab.Screen name="Search" component={SearchScreen} options={{ tabBarLabel: "Arama Yap", tabBarIcon: ({ color, size }) => (<Icon name="magnify" color={color} size={size} />)}} />
+      <Tab.Screen name="Search" component={SearchScreen} options={{ tabBarLabel: "Arama Geçmişi", tabBarIcon: ({ color, size }) => (<Icon name="magnify" color={color} size={size} />)}} />
       <Tab.Screen name="Favorites" component={FavoritesScreen} options={{ tabBarLabel: "Favoriler", tabBarIcon: ({ color, size }) => (<Icon name="heart" color={color} size={size} />)}} />
       <Tab.Screen name="Downloads" component={DownloadsScreen} options={{ tabBarLabel: "İndirilenler", tabBarIcon: ({ color, size }) => (<Icon name="download-circle" color={color} size={size} />)}} />
     </Tab.Navigator>
   );
 }
 
-// ✅ Ana Router Yapısı
+// Router
 function Router() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <View style={{ flex: 1, backgroundColor: '#121212' }}>
-          {/* onReady sayesinde navigator tam yüklenmeden hiçbir alt bileşen (MiniPlayer dahil) hook çağıramaz */}
           <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
               <Stack.Screen name="BottomTab" component={TabNavigator} />
@@ -56,8 +55,6 @@ function Router() {
                 }} 
               />
             </Stack.Navigator>
-            
-            {/* ✅ MiniPlayer burada kalmalı, ancak içindeki hookları korumaya aldık */}
             <MiniPlayer />
           </NavigationContainer>
         </View>

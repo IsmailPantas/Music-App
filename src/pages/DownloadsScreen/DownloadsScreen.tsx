@@ -7,12 +7,13 @@ import { setSong } from '../../store/slices/playerSlice';
 import MusicCard from "../../components/MusicCard";
 import styles from "./DownloadsScreen.style"; 
 
+// İndirilenler Ekranı yapısı
+
 function DownloadsScreen() {
-    // 1. Hooklar her zaman en üstte ve sabit sırada!
+    // Hooklar
     const dispatch = useDispatch();
     const [isConnected, setIsConnected] = useState<boolean | null>(true);
     
-    // Selector'u güvenli hale getirdik (undefined dönmesin diye)
     const offlineSongs = useSelector((state: any) => state?.player?.offlineSongs || {});
 
     useEffect(() => {
@@ -22,7 +23,7 @@ function DownloadsScreen() {
         return () => unsubscribe();
     }, []);
 
-    // Veriyi güvenli bir şekilde diziye çeviriyoruz
+    // Veri dönüşümü
     const downloadedList = Object.values(offlineSongs).filter(item => item !== null && item !== undefined);
 
     return (
@@ -38,10 +39,10 @@ function DownloadsScreen() {
             
             <FlatList 
                 data={downloadedList} 
-                // ✅ toString hatasını önlemek için güvenli keyExtractor
                 keyExtractor={(item: any) => (item?.id ? item.id.toString() : Math.random().toString())}
                 renderItem={({ item }) => {
-                    if (!item) return null; // Güvenlik katmanı
+                    // Hata yönetimi
+                    if (!item) return null;
                     return (
                         <TouchableOpacity 
                             style={styles.card_wrapper} 

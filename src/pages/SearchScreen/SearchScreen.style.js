@@ -36,7 +36,6 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    // ✅ METİN ARAMA İÇİN STİLLER
     historyItemContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',

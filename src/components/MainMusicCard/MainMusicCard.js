@@ -7,6 +7,8 @@ import { togglePlay } from '../../store/slices/playerSlice';
 import styles from './MainMusicCard.style';
 
 
+// Şuan çalan şarkının büyük resmi
+
 function MainMusicCard () {
 
     const { currentSong } = useSelector((state) => state.player);
