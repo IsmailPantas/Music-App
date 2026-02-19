@@ -97,14 +97,7 @@ function SearchScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.header}>Ara</Text>
-            <Input 
-                placeholder="Ne dinlemek istiyorsun?"
-                value={searchQuery}
-                onChangeText={setSearchQuery}
-                onSubmitEditing={() => handleSearch()}
-                returnKeyType="search"
-            />
+            <Text style={styles.header}>Arama Geçmişi</Text>
 
             <View style={styles.historyHeaderContainer}>
                 <Text style={styles.historyHeader}>Son aramalar</Text>

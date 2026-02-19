@@ -5,5 +5,7 @@ export default StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         margin: 5,
+        gap: 8,
+        
     }
 })

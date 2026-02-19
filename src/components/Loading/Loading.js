@@ -11,7 +11,7 @@ function Loading() {
     return(
         <View style={styles.container}>
 
-            <LottieView source={require("../../assets/Loading.json")} autoPlay style={{ width: 300, height: 300 }}/>
+            <LottieView source={require("../../assets/Loading.json")} autoPlay style={{ width: 100, height: 100 }}/>
         </View>
     );
 }
