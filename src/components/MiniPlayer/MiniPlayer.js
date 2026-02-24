@@ -25,11 +25,11 @@ function MiniPlayer() {
 
     useEffect(() => {
         if (videoRef.current && seekTime !== undefined && currentSong) {
-            videoRef.current.seek(seekTime); //
+            videoRef.current.seek(seekTime);
         }
-    }, [seekTime, currentSong?.id]); //
+    }, [seekTime, currentSong?.id]); 
 
-    if (!currentSong) return null; //
+    if (!currentSong) return null;
 
     const source = (() => {
         const offlineData = offlineSongs[currentSong.id];
@@ -45,13 +45,13 @@ function MiniPlayer() {
                     ref={videoRef}
                     source={source}
                     paused={!isPlaying}
-                    repeat={isRepeat} //
+                    repeat={isRepeat}
                     style={{ width: 0, height: 0, position: 'absolute' }}
                     playInBackground={true}
                     onLoad={(data) => dispatch(setDuration(data.duration))}
                     onEnd={() => {
                         if (!isRepeat) {
-                            dispatch(playNextSong()); //
+                            dispatch(playNextSong());
                         }
                     }}
                     onError={(e) => console.log("Video Hatası:", e)}
